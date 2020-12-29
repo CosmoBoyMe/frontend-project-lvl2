@@ -1,0 +1,22 @@
+name: check tests
+
+on: [push]
+
+jobs:
+  start-eslint:
+    runs-on: ubuntu-latest 
+    steps:
+      - name: git clone
+        uses: actions/checkout@v1
+        
+      - name: node install
+        uses: actions/setup-node@v2.1.2
+        
+      - name: npm install
+        run: make install
+        
+      - name: run eslint
+        run: make lint
+        
+      - name: run tests
+        run: make test
