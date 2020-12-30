@@ -15,8 +15,7 @@ test('getDiff test main functions', () => {
   + timeout: 20
   + verbose: true
 }`;
-  console.log(__dirname);
-  console.log(__filename);
+
   const difference = getDiff(getFixturePath('file1.json'), getFixturePath('file2.json'));
 
   expect(difference).toBe(expectedDiferece);
