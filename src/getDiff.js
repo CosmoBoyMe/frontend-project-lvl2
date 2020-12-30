@@ -2,8 +2,8 @@ import fs from 'fs';
 import _ from 'lodash';
 
 const getDiff = (filepath1, filepath2) => {
-  const data1 = JSON.parse(fs.readFileSync(filepath1));
-  const data2 = JSON.parse(fs.readFileSync(filepath2));
+  const data1 = JSON.parse(fs.readFileSync(filepath1, 'utf8'));
+  const data2 = JSON.parse(fs.readFileSync(filepath2, 'utf8'));
   const keys = _.union(_.keys(data1), _.keys(data2));
   const keysSorted = keys.sort();
 
