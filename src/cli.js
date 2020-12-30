@@ -1,5 +1,5 @@
 import commander from 'commander';
-import getDiff from './index.js';
+import getDiff from './getDiff.js';
 
 const gendiff = commander;
 
