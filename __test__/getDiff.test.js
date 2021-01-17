@@ -1,22 +1,21 @@
 import { fileURLToPath } from 'url';
 import path from 'path';
+import fs from 'fs';
 import getDiff from '../src/getDiff.js';
+import parsers from '../src/parsers';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
+const readFile = (filename) => fs.readFileSync(getFixturePath(filename), 'utf-8');
 
-test('getDiff test main functions', () => {
-  const expectedDiferece = `{
-  - follow: false
-    host: hexlet.io
-  - proxy: 123.234.53.22
-  - timeout: 50
-  + timeout: 20
-  + verbose: true
-}`;
+test('all format', () => {
+  const stylishDifference = getDiff(getFixturePath('file1.json'), getFixturePath('file2.yaml'));
+  const expectedStylish = readFile('expectedStylish.txt');
+  expect(stylishDifference).toBe(expectedStylish);
+});
 
-  const difference = getDiff(getFixturePath('file1.json'), getFixturePath('file2.json'));
-
-  expect(difference).toBe(expectedDiferece);
+test('parsers', () => {
+  const parsingYaml = parsers(getFixturePath('file1.yaml'));
+  expect(typeof parsingYaml).toBe('object');
 });
