@@ -1,4 +1,4 @@
-name: check tests
+name: my own tests
 
 on: [push]
 
