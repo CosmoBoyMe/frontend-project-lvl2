@@ -9,12 +9,16 @@ const __dirname = path.dirname(__filename);
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 const readFile = (filename) => fs.readFileSync(getFixturePath(filename), 'utf-8');
 
-test('all format', () => {
+test('stylishFormat', () => {
   const stylishDifference = getDiff(getFixturePath('file1.json'), getFixturePath('file2.yaml'));
   const expectedStylish = readFile('expectedStylish.txt');
   expect(stylishDifference).toBe(expectedStylish);
 });
-
+test('plainFormat', () => {
+  const plainDifference = getDiff(getFixturePath('file1.json'), getFixturePath('file2.yaml'), 'plain');
+  const expectedPlain = readFile('expectedPlainFormat.txt');
+  expect(plainDifference).toBe(expectedPlain);
+});
 test('parsers', () => {
   const parsingYaml = parsers(getFixturePath('file1.yaml'));
   expect(typeof parsingYaml).toBe('object');
