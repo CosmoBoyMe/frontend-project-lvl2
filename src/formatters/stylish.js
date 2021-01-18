@@ -26,10 +26,10 @@ const getStylishFormat = (syntaxTree, depth = 1) => {
       case 'added':
         return `${indentForDifference}+ ${item.name}: ${parseValue(item.value, depth)}`;
 
-      case 'deleted':
+      case 'removed':
         return `${indentForDifference}- ${item.name}: ${parseValue(item.value, depth)}`;
 
-      case 'changed': {
+      case 'updated': {
         const oldValue = `${indentForDifference}- ${item.name}: ${parseValue(item.oldValue, depth)}`;
         const newValue = `${indentForDifference}+ ${item.name}: ${parseValue(item.value, depth)}`;
         return [oldValue, newValue];
