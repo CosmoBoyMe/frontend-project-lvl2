@@ -1,12 +1,6 @@
 import _ from 'lodash';
 import parsers from './parsers.js';
-import getPlainFormat from './formatters/plain.js';
-import getStylishFormat from './formatters/stylish.js';
-
-const getformat = {
-  stylish: (syntaxTree) => getStylishFormat(syntaxTree),
-  plain: (syntaxTree) => getPlainFormat(syntaxTree),
-};
+import getFormat from './formatters/index.js';
 
 const getSyntaxTree = (data1, data2) => {
   const keys = _.union(_.keys(data1), _.keys(data2));
@@ -34,7 +28,9 @@ const getDiff = (filepath1, filepath2, formatName = 'stylish') => {
   const data1 = parsers(filepath1);
   const data2 = parsers(filepath2);
   const syntaxTree = getSyntaxTree(data1, data2);
-  return getformat[formatName](syntaxTree);
+  const format = getFormat(formatName);
+  const diff = format(syntaxTree);
+  return diff;
 };
 
 export default getDiff;
