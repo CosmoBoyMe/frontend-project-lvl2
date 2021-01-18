@@ -7,6 +7,11 @@
 
 [![asciicast](https://asciinema.org/a/381182.svg)](https://asciinema.org/a/381182)
 
-### nested file difference
+### stylish format
 
 [![asciicast](https://asciinema.org/a/385122.svg)](https://asciinema.org/a/385122)
+
+### plain format
+
+[![asciicast](https://asciinema.org/a/385247.svg)](https://asciinema.org/a/385247)
+
