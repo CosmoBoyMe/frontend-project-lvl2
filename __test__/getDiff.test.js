@@ -3,7 +3,6 @@ import path from 'path';
 import fs from 'fs';
 import getDiff from '../src/getDiff.js';
 import parsers from '../src/parsers';
-import { expect, test } from '@jest/globals';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
