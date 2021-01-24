@@ -11,7 +11,7 @@ const readFile = (filename) => fs.readFileSync(getFixturePath(filename), 'utf-8'
 
 test('stylishFormat', () => {
   const stylishDifference = getDiff(getFixturePath('file1.json'), getFixturePath('file2.yaml'));
-  const expectedStylish = readFile('expectedStylish.txt');
+  const expectedStylish = readFile('expectedStylishFormat.txt');
   expect(stylishDifference).toBe(expectedStylish);
 });
 test('plainFormat', () => {
