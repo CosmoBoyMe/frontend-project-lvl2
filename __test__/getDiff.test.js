@@ -10,21 +10,21 @@ const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', 
 const readFile = (filename) => fs.readFileSync(getFixturePath(filename), 'utf-8');
 
 test('stylishFormat', () => {
-  const stylishDifference = getDiff(getFixturePath('file1.json'), getFixturePath('file2.yaml'));
+  const stylishDifference = getDiff(getFixturePath('file1.json'), getFixturePath('file2.yml'));
   const expectedStylish = readFile('expectedStylishFormat.txt');
   expect(stylishDifference).toBe(expectedStylish);
 });
 test('plainFormat', () => {
-  const plainDifference = getDiff(getFixturePath('file1.json'), getFixturePath('file2.yaml'), 'plain');
+  const plainDifference = getDiff(getFixturePath('file1.json'), getFixturePath('file2.yml'), 'plain');
   const expectedPlain = readFile('expectedPlainFormat.txt');
   expect(plainDifference).toBe(expectedPlain);
 });
 test('jsonFormat', () => {
-  const jsonDifference = getDiff(getFixturePath('file1.json'), getFixturePath('file2.yaml'), 'json');
+  const jsonDifference = getDiff(getFixturePath('file1.json'), getFixturePath('file2.yml'), 'json');
   const expectedJson = readFile('expectedJsonFormat.json');
   expect(jsonDifference).toBe(expectedJson);
 });
 test('parsers', () => {
-  const parsingYaml = parsers(getFixturePath('file1.yaml'));
+  const parsingYaml = parsers(getFixturePath('file1.yml'));
   expect(typeof parsingYaml).toBe('object');
 });

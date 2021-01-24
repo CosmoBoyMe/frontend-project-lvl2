@@ -5,7 +5,7 @@ import path from 'path';
 const parse = (filePath) => {
   const format = path.extname(filePath);
   switch (format) {
-    case '.yaml':
+    case '.yml':
       return yaml.load(fs.readFileSync(filePath, 'utf8'));
     case '.json':
       return JSON.parse(fs.readFileSync(filePath, 'utf8'));
