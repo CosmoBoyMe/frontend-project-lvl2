@@ -2,7 +2,7 @@ import yaml from 'js-yaml';
 import fs from 'fs';
 import path from 'path';
 
-const parsers = (filePath) => {
+const parse = (filePath) => {
   const format = path.extname(filePath);
   switch (format) {
     case '.yaml':
@@ -10,8 +10,8 @@ const parsers = (filePath) => {
     case '.json':
       return JSON.parse(fs.readFileSync(filePath, 'utf8'));
     default:
-      throw new Error('Error format');
+      throw new Error(`Error format: ${format}`);
   }
 };
 
-export default parsers;
+export default parse;

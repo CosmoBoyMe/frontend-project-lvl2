@@ -7,6 +7,6 @@ const formats = {
   plain: (syntaxTree) => getPlainFormat(syntaxTree),
   json: (syntaxTree) => getJsonFormat(syntaxTree),
 };
-const getFormat = (format) => formats[format];
+const getFormatter = (format) => formats[format];
 
-export default getFormat;
+export default getFormatter;

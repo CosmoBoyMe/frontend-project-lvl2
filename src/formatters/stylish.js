@@ -6,10 +6,9 @@ const parseValue = (value, depth) => {
   }
 
   const indent = ' '.repeat(4);
-
   const currentIndent = indent.repeat(depth + 1);
-
   const bracketIndent = indent.repeat(depth);
+
   const lines = Object
     .entries(value)
     .map(([key, val]) => `${currentIndent}${key}: ${parseValue(val, depth + 1)}`);
@@ -17,21 +16,25 @@ const parseValue = (value, depth) => {
   return ['{', ...lines, `${bracketIndent}}`].join('\n');
 };
 
+const differenceChar = {
+  minus: '- ',
+  plus: '+ ',
+};
 const getStylishFormat = (syntaxTree, depth = 1) => {
   const indent = '    '.repeat(depth);
   const bracketIndent = indent.slice(0, -4);
   const indentForDifference = indent.slice(0, -2);
-  const line = syntaxTree.flatMap((item) => {
+  const lines = syntaxTree.flatMap((item) => {
     switch (item.status) {
       case 'added':
-        return `${indentForDifference}+ ${item.name}: ${parseValue(item.value, depth)}`;
+        return `${indentForDifference}${differenceChar.plus}${item.name}: ${parseValue(item.value, depth)}`;
 
       case 'removed':
-        return `${indentForDifference}- ${item.name}: ${parseValue(item.value, depth)}`;
+        return `${indentForDifference}${differenceChar.minus}${item.name}: ${parseValue(item.value, depth)}`;
 
       case 'updated': {
-        const oldValue = `${indentForDifference}- ${item.name}: ${parseValue(item.oldValue, depth)}`;
-        const newValue = `${indentForDifference}+ ${item.name}: ${parseValue(item.value, depth)}`;
+        const oldValue = `${indentForDifference}${differenceChar.minus}${item.name}: ${parseValue(item.oldValue, depth)}`;
+        const newValue = `${indentForDifference}${differenceChar.plus}${item.name}: ${parseValue(item.value, depth)}`;
         return [oldValue, newValue];
       }
 
@@ -45,7 +48,7 @@ const getStylishFormat = (syntaxTree, depth = 1) => {
     }
   });
 
-  return ['{', ...line, `${bracketIndent}}`].join('\n');
+  return ['{', ...lines, `${bracketIndent}}`].join('\n');
 };
 
 export default getStylishFormat;

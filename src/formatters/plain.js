@@ -1,4 +1,3 @@
-// /* eslint-disable */
 import _ from 'lodash';
 
 const getRightValueFormat = (value) => {
@@ -9,8 +8,8 @@ const getRightValueFormat = (value) => {
   }
   return value;
 };
-const getPlainFormat = (ast, nodeName = '') => {
-  const lines = ast.flatMap((item) => {
+const getPlainFormat = (syntaxTree, nodeName = '') => {
+  const lines = syntaxTree.flatMap((item) => {
     switch (item.status) {
       case 'nested':
         return getPlainFormat(item.children, `${nodeName}${item.name}.`);
