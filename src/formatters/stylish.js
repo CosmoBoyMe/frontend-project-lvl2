@@ -1,17 +1,18 @@
 import _ from 'lodash';
 
-const parseValue = (value, depth) => {
+const SPACE = '    ';
+
+const formatValue = (value, depth) => {
   if (!_.isObject(value)) {
     return String(value);
   }
 
-  const indent = ' '.repeat(4);
-  const currentIndent = indent.repeat(depth + 1);
-  const bracketIndent = indent.repeat(depth);
+  const lineIndent = SPACE.repeat(depth + 1);
+  const bracketIndent = SPACE.repeat(depth);
 
   const lines = Object
     .entries(value)
-    .map(([key, val]) => `${currentIndent}${key}: ${parseValue(val, depth + 1)}`);
+    .map(([key, val]) => `${lineIndent}${key}: ${formatValue(val, depth + 1)}`);
 
   return ['{', ...lines, `${bracketIndent}}`].join('\n');
 };
@@ -19,36 +20,40 @@ const parseValue = (value, depth) => {
 const differenceChar = {
   minus: '- ',
   plus: '+ ',
+  space: '  ',
 };
-const getStylishFormat = (syntaxTree, depth = 1) => {
-  const indent = '    '.repeat(depth);
+
+const formatStylishFormat = (syntaxTree, depth = 1) => {
+  const indent = SPACE.repeat(depth);
   const bracketIndent = indent.slice(0, -4);
-  const indentForDifference = indent.slice(0, -2);
+  const differenceLineIndent = indent.slice(0, -2);
   const lines = syntaxTree.flatMap((item) => {
     switch (item.status) {
       case 'added':
-        return `${indentForDifference}${differenceChar.plus}${item.name}: ${parseValue(item.value, depth)}`;
+        return `${differenceLineIndent}${differenceChar.plus}${item.name}: ${formatValue(item.value, depth)}`;
 
       case 'removed':
-        return `${indentForDifference}${differenceChar.minus}${item.name}: ${parseValue(item.value, depth)}`;
+        return `${differenceLineIndent}${differenceChar.minus}${item.name}: ${formatValue(item.value, depth)}`;
 
       case 'updated': {
-        const oldValue = `${indentForDifference}${differenceChar.minus}${item.name}: ${parseValue(item.oldValue, depth)}`;
-        const newValue = `${indentForDifference}${differenceChar.plus}${item.name}: ${parseValue(item.value, depth)}`;
+        const oldValue = `${differenceLineIndent}${differenceChar.minus}${item.name}: ${formatValue(item.oldValue, depth)}`;
+        const newValue = `${differenceLineIndent}${differenceChar.plus}${item.name}: ${formatValue(item.value, depth)}`;
         return [oldValue, newValue];
       }
 
       case 'nested': {
-        const children = getStylishFormat(item.children, depth + 1);
+        const children = formatStylishFormat(item.children, depth + 1);
         return `${indent}${item.name}: ${children}`;
       }
 
       default:
-        return `${indent}${item.name}: ${parseValue(item.value, depth)}`;
+        return `${indent}${item.name}: ${formatValue(item.value, depth)}`;
     }
   });
 
   return ['{', ...lines, `${bracketIndent}}`].join('\n');
 };
+
+const getStylishFormat = (syntaxTree) => formatStylishFormat(syntaxTree);
 
 export default getStylishFormat;

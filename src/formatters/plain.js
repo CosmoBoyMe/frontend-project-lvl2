@@ -1,31 +1,35 @@
 import _ from 'lodash';
 
-const getRightValueFormat = (value) => {
+const formatValue = (value) => {
   if (_.isObject(value)) {
     return '[complex value]';
-  } if (typeof value === 'string') {
-    return `'${value}'`;
   }
-  return value;
+
+  return typeof value === 'string' ? `'${value}'` : value;
 };
-const getPlainFormat = (syntaxTree, nodeName = '') => {
+
+const formatPlainFormat = (syntaxTree, nodeName = '') => {
   const lines = syntaxTree.flatMap((item) => {
     switch (item.status) {
       case 'nested':
-        return getPlainFormat(item.children, `${nodeName}${item.name}.`);
+        return formatPlainFormat(item.children, `${nodeName}${item.name}.`);
       case 'added':
-        return `Property '${nodeName}${item.name}' was added with value: ${getRightValueFormat(item.value)}`;
+        return `Property '${nodeName}${item.name}' was added with value: ${formatValue(item.value)}`;
       case 'removed':
         return `Property '${nodeName}${item.name}' was removed`;
       case 'updated': {
-        const oldValue = getRightValueFormat(item.oldValue);
-        return `Property '${nodeName}${item.name}' was updated. From ${oldValue} to ${getRightValueFormat(item.value)}`;
+        const oldValue = formatValue(item.oldValue);
+        return `Property '${nodeName}${item.name}' was updated. From ${oldValue} to ${formatValue(item.value)}`;
       }
-      default:
-      // return `Property '${name}${item.name}' was unchanged.`
+      case 'unchanged':
         return [];
+      default:
+        throw new Error(`unknown status: ${item.status}`);
     }
   });
   return lines.join('\n');
 };
+
+const getPlainFormat = (syntaxTree) => formatPlainFormat(syntaxTree);
+
 export default getPlainFormat;

@@ -3,9 +3,9 @@ import getPlainFormat from './plain.js';
 import getJsonFormat from './json.js';
 
 const formats = {
-  stylish: (syntaxTree) => getStylishFormat(syntaxTree),
-  plain: (syntaxTree) => getPlainFormat(syntaxTree),
-  json: (syntaxTree) => getJsonFormat(syntaxTree),
+  stylish: getStylishFormat,
+  plain: getPlainFormat,
+  json: getJsonFormat,
 };
 const getFormatter = (format) => formats[format];
 
