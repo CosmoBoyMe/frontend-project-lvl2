@@ -7,6 +7,7 @@ const formats = {
   plain: getPlainFormat,
   json: getJsonFormat,
 };
+
 const getFormatter = (format) => formats[format];
 
 export default getFormatter;

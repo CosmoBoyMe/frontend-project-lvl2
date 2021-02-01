@@ -1,33 +1,30 @@
-import { fileURLToPath } from 'url';
 import path from 'path';
 import fs from 'fs';
 import genDiff from '../src/genDiff.js';
-import parsers from '../src/parsers';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
-const readFile = (filename) => fs.readFileSync(getFixturePath(filename), 'utf-8');
+const getFixturePath = (filename) => path.join(`./__fixtures__/${filename}`);
+const getExpectedFormat = (formatName) => fs.readFileSync(`./__fixtures__/expected_${formatName}`, 'utf-8');
 
-test('stylishFormat', () => {
-  const stylishDifference = genDiff(getFixturePath('file1.json'), getFixturePath('file2.yml'));
-  const expectedStylish = readFile('expectedStylishFormat.txt');
-  expect(stylishDifference).toBe(expectedStylish);
-});
+const formats = [
+  'stylish',
+  'plain',
+  'json',
+];
 
-test('plainFormat', () => {
-  const plainDifference = genDiff(getFixturePath('file1.json'), getFixturePath('file2.yml'), 'plain');
-  const expectedPlain = readFile('expectedPlainFormat.txt');
-  expect(plainDifference).toBe(expectedPlain);
-});
+const extensions = [
+  'json',
+  'yml',
+];
 
-test('jsonFormat', () => {
-  const jsonDifference = genDiff(getFixturePath('file1.json'), getFixturePath('file2.yml'), 'json');
-  const expectedJson = readFile('expectedJsonFormat.json');
-  expect(jsonDifference).toBe(expectedJson);
-});
+const extensionCases = extensions.flatMap((cas) => extensions.map((item) => [cas, item]));
+const allCases = extensionCases.flatMap((item) => formats.map((el) => [...item, el]));
 
-test('parsers', () => {
-  const parsingYaml = parsers(getFixturePath('file1.yml'));
-  expect(typeof parsingYaml).toBe('object');
+describe('Test all extension and all formatNames', () => {
+  test.each(allCases)('extensions: [%s, %s] formatName: %s', (extName1, extName2, formatName) => {
+    const filepath1 = getFixturePath(`file1.${extName1}`);
+    const filepath2 = getFixturePath(`file2.${extName2}`);
+    const difference = genDiff(filepath1, filepath2, formatName);
+    const expectedFormat = getExpectedFormat(formatName);
+    expect(difference).toBe(expectedFormat);
+  });
 });
