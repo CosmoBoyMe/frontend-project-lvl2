@@ -3,7 +3,7 @@
   "type": "module",
   "version": "1.0.0",
   "description": "learn project",
-  "main": "getDiff.js",
+  "main": "index.js",
   "bin": {
     "gendiff": "bin/gendiff.js"
   },

@@ -28,7 +28,7 @@ const formatStylishFormat = (syntaxTree, depth = 1) => {
   const bracketIndent = indent.slice(0, -4);
   const differenceLineIndent = indent.slice(0, -2);
   const lines = syntaxTree.flatMap((item) => {
-    switch (item.status) {
+    switch (item.type) {
       case 'added':
         return `${differenceLineIndent}${differenceChar.plus}${item.name}: ${formatValue(item.value, depth)}`;
 

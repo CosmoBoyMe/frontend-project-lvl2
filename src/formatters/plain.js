@@ -10,7 +10,7 @@ const formatValue = (value) => {
 
 const formatPlainFormat = (syntaxTree, nodeName = '') => {
   const lines = syntaxTree.flatMap((item) => {
-    switch (item.status) {
+    switch (item.type) {
       case 'nested':
         return formatPlainFormat(item.children, `${nodeName}${item.name}.`);
       case 'added':
@@ -22,12 +22,12 @@ const formatPlainFormat = (syntaxTree, nodeName = '') => {
         return `Property '${nodeName}${item.name}' was updated. From ${oldValue} to ${formatValue(item.value)}`;
       }
       case 'unchanged':
-        return [];
+        return null;
       default:
-        throw new Error(`unknown status: ${item.status}`);
+        throw new Error(`unknown status: ${item.type}`);
     }
   });
-  return lines.join('\n');
+  return lines.filter((item) => item !== null).join('\n');
 };
 
 const getPlainFormat = (syntaxTree) => formatPlainFormat(syntaxTree);
