@@ -1,6 +1,6 @@
 import parse from './parsers.js';
 import getFormatter from './formatters/index.js';
-import buildSyntaxTree from './syntaxTree';
+import buildSyntaxTree from './syntaxTree.js';
 import { formatNames } from './const.js';
 
 const genDiff = (filepath1, filepath2, formatName = formatNames.stylish) => {
