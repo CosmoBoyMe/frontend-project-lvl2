@@ -2,9 +2,10 @@ import _ from 'lodash';
 import { Types } from './const.js';
 
 const buildSyntaxTree = (data1, data2) => {
-  const keys = _.union(_.keys(data1), _.keys(data2)).sort();
+  const keys = _.union(_.keys(data1), _.keys(data2));
+  const sortedKeys = _.sortBy(keys);
 
-  const syntaxTree = keys.map((key) => {
+  const syntaxTree = sortedKeys.map((key) => {
     const value1 = data1[key];
     const value2 = data2[key];
 
