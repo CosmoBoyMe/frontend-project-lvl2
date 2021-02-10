@@ -1,6 +1,6 @@
 import path from 'path';
 import fs from 'fs';
-import genDiff from '../src/index.js';
+import genDiff from '../src/genDiff.js';
 
 const getFixturePath = (filename) => path.join(`./__fixtures__/${filename}`);
 const getExpectedFormat = (formatName) => fs.readFileSync(`./__fixtures__/expected_${formatName}`, 'utf-8');
@@ -9,6 +9,7 @@ const formats = [
   'stylish',
   'plain',
   'json',
+  undefined,
 ];
 
 const extensions = [
@@ -24,7 +25,7 @@ describe('Test all extension and all format Names', () => {
     const filepath1 = getFixturePath(`file1.${extName1}`);
     const filepath2 = getFixturePath(`file2.${extName2}`);
     const difference = genDiff(filepath1, filepath2, formatName);
-    const expectedFormat = getExpectedFormat(formatName);
+    const expectedFormat = getExpectedFormat(formatName === undefined ? 'stylish' : formatName);
     expect(difference).toBe(expectedFormat);
   });
 });
