@@ -6,19 +6,19 @@ jobs:
   start-eslint:
     runs-on: ubuntu-latest 
     steps:
-      - name: git clone
+      - name: clone repository
         uses: actions/checkout@v1
         
       - name: node install
         uses: actions/setup-node@v2.1.2
         
-      - name: npm install
+      - name: install Package Manager
         run: make install
         
-      - name: run eslint
+      - name: run linting utility
         run: make lint
         
-      - name: run tests
+      - name: run testing framework
         run: make test
         
       - name: Test & publish code coverage
