@@ -22,7 +22,6 @@ const formatValue = (value, depth) => {
 const differenceChar = {
   minus: '- ',
   plus: '+ ',
-  space: '  ',
 };
 
 const formatStylishFormat = (syntaxTree, depth = 1) => {
@@ -31,19 +30,22 @@ const formatStylishFormat = (syntaxTree, depth = 1) => {
   const currentIndent = SPACE.repeat(indentSize);
 
   const bracketIndent = SPACE.repeat(indentSize - SPACES_COUNT);
+
   const differenceLineIndent = SPACE.repeat(differenceIndentSize);
+  const differenceWithMinus = differenceLineIndent + differenceChar.minus;
+  const differenceWithPlus = differenceLineIndent + differenceChar.plus;
 
   const lines = syntaxTree.flatMap((item) => {
     switch (item.type) {
       case Types.added:
-        return `${differenceLineIndent}${differenceChar.plus}${item.name}: ${formatValue(item.value, depth)}`;
+        return `${differenceWithPlus}${item.name}: ${formatValue(item.value, depth)}`;
 
       case Types.removed:
-        return `${differenceLineIndent}${differenceChar.minus}${item.name}: ${formatValue(item.value, depth)}`;
+        return `${differenceWithMinus}${item.name}: ${formatValue(item.value, depth)}`;
 
       case Types.updated: {
-        const oldValue = `${differenceLineIndent}${differenceChar.minus}${item.name}: ${formatValue(item.oldValue, depth)}`;
-        const newValue = `${differenceLineIndent}${differenceChar.plus}${item.name}: ${formatValue(item.value, depth)}`;
+        const oldValue = `${differenceWithMinus}${item.name}: ${formatValue(item.oldValue, depth)}`;
+        const newValue = `${differenceWithPlus}${item.name}: ${formatValue(item.value, depth)}`;
         return [oldValue, newValue];
       }
 
