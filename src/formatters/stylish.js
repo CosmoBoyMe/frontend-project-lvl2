@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { Types } from '../const';
+import { Types } from '../const.js';
 
 const SPACE = ' ';
 const SPACES_COUNT = 4;
