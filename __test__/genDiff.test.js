@@ -2,8 +2,15 @@ import path from 'path';
 import fs from 'fs';
 import genDiff from '../src/genDiff.js';
 
-const getFixturePath = (filename) => path.join(`./__fixtures__/${filename}`);
-const getExpectedFormat = (formatName) => fs.readFileSync(`./__fixtures__/expected_${formatName}`, 'utf-8');
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
+// const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
+// const getExpectedFormat = (formatName) => {
+//   return fs.readFileSync(getFixturePath(`expected_${formatName}`), 'utf-8')
+// };
+
+const getFixturePath = (filename) => path.join('__fixtures__', `${filename}`);
+const getExpectedFormat = (formatName) => fs.readFileSync(getFixturePath(`expected_${formatName}`), 'utf-8');
 
 const formats = [
   'stylish',

@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { Types } from '../const.js';
 
 const formatValue = (value) => {
   if (_.isObject(value)) {
@@ -11,20 +12,20 @@ const formatValue = (value) => {
 const formatPlainFormat = (syntaxTree, nodeName = '') => {
   const lines = syntaxTree.flatMap((item) => {
     switch (item.type) {
-      case 'nested':
+      case Types.nested:
         return formatPlainFormat(item.children, `${nodeName}${item.name}.`);
-      case 'added':
+      case Types.added:
         return `Property '${nodeName}${item.name}' was added with value: ${formatValue(item.value)}`;
-      case 'removed':
+      case Types.removed:
         return `Property '${nodeName}${item.name}' was removed`;
-      case 'updated': {
+      case Types.updated: {
         const oldValue = formatValue(item.oldValue);
         return `Property '${nodeName}${item.name}' was updated. From ${oldValue} to ${formatValue(item.value)}`;
       }
-      case 'unchanged':
+      case Types.unchanged:
         return null;
       default:
-        throw new Error(`unknown status: ${item.type}`);
+        throw new Error(`unknown type: ${item.type}`);
     }
   });
   return lines.filter((item) => item !== null).join('\n');

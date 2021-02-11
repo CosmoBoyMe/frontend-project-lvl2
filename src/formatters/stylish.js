@@ -1,14 +1,16 @@
 import _ from 'lodash';
+import { Types } from '../const';
 
-const SPACE = '    ';
+const SPACE = ' ';
+const SPACES_COUNT = 4;
 
 const formatValue = (value, depth) => {
   if (!_.isObject(value)) {
     return String(value);
   }
-
-  const lineIndent = SPACE.repeat(depth + 1);
-  const bracketIndent = SPACE.repeat(depth);
+  const indent = SPACE.repeat(SPACES_COUNT);
+  const lineIndent = indent.repeat(depth + 1);
+  const bracketIndent = indent.repeat(depth);
 
   const lines = Object
     .entries(value)
@@ -24,30 +26,36 @@ const differenceChar = {
 };
 
 const formatStylishFormat = (syntaxTree, depth = 1) => {
-  const indent = SPACE.repeat(depth);
-  const bracketIndent = indent.slice(0, -4);
-  const differenceLineIndent = indent.slice(0, -2);
+  const indentSize = SPACES_COUNT * depth;
+  const differenceIndentSize = indentSize - 2;
+  const currentIndent = SPACE.repeat(indentSize);
+
+  const bracketIndent = SPACE.repeat(indentSize - SPACES_COUNT);
+  const differenceLineIndent = SPACE.repeat(differenceIndentSize);
+
   const lines = syntaxTree.flatMap((item) => {
     switch (item.type) {
-      case 'added':
+      case Types.added:
         return `${differenceLineIndent}${differenceChar.plus}${item.name}: ${formatValue(item.value, depth)}`;
 
-      case 'removed':
+      case Types.removed:
         return `${differenceLineIndent}${differenceChar.minus}${item.name}: ${formatValue(item.value, depth)}`;
 
-      case 'updated': {
+      case Types.updated: {
         const oldValue = `${differenceLineIndent}${differenceChar.minus}${item.name}: ${formatValue(item.oldValue, depth)}`;
         const newValue = `${differenceLineIndent}${differenceChar.plus}${item.name}: ${formatValue(item.value, depth)}`;
         return [oldValue, newValue];
       }
 
-      case 'nested': {
+      case Types.nested: {
         const children = formatStylishFormat(item.children, depth + 1);
-        return `${indent}${item.name}: ${children}`;
+        return `${currentIndent}${item.name}: ${children}`;
       }
+      case Types.unchanged:
+        return `${currentIndent}${item.name}: ${formatValue(item.value, depth)}`;
 
       default:
-        return `${indent}${item.name}: ${formatValue(item.value, depth)}`;
+        throw new Error(`unknown type: ${item.type}`);
     }
   });
 
