@@ -5,17 +5,17 @@
 
 ### DESCRIPTION
 
-  genDiff - A program that determines the difference between two data structures.
+  ***genDiff - A program that determines the difference between two data structures.***
 
 
 ### INSTALLATION
-
+```
   Clone this Github Repository
   make install
   make link
-
+```
 ### USAGE
-
+```
 Usage: gendiff [options] <filepath1> <filepath2>
 
 Compares two configuration files and shows a difference.
@@ -24,7 +24,7 @@ Options:
   -V, --version        output the version number
   -f, --format [type]  output format (default: "stylish")
   -h, --help           output usage information
-
+```
 
 
 ### file difference
