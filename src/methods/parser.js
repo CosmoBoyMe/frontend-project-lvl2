@@ -5,6 +5,6 @@ const parsers = {
   yml: yaml.load,
 };
 
-const selectParser = (expansion) => parsers[expansion];
+const selectParser = (extension) => parsers[extension];
 
 export default selectParser;
