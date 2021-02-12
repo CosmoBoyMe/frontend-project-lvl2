@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { Types } from './const.js';
+import { Types } from '../const.js';
 
 const buildSyntaxTree = (data1, data2) => {
   const keys = _.union(_.keys(data1), _.keys(data2));

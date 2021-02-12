@@ -3,9 +3,9 @@
   "type": "module",
   "version": "1.0.0",
   "description": "learn project",
-  "main": "src/genDiff.js",
+  "main": "src/index.js",
   "bin": {
-    "gendiff": "bin/gendiff.js"
+    "gendiff": "bin/genDiff.js"
   },
   "scripts": {
     "test": "NODE_OPTIONS=--experimental-vm-modules npx jest"
