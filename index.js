@@ -1,7 +1,7 @@
-import getFormatter from './formatters/index.js';
-import buildSyntaxTree from './syntaxTree.js';
-import { formatNames } from './const.js';
-import getParsedData from './getParsedData.js';
+import getFormatter from './src/formatters/index.js';
+import buildSyntaxTree from './src/syntaxTree.js';
+import { formatNames } from './src/const.js';
+import getParsedData from './src/getParsedData.js';
 
 const genDiff = (filepath1, filepath2, formatName = formatNames.stylish) => {
   const data1 = getParsedData(filepath1);
